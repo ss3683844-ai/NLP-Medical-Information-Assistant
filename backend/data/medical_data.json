@@ -1,0 +1,355 @@
+[
+  {
+    "intent": "greeting",
+    "questions": [
+      "hello",
+      "hi",
+      "hey",
+      "good morning",
+      "good evening",
+      "hello medical assistant",
+      "can you help me"
+    ],
+    "response": {
+      "problem": "General Health Question",
+      "general_care": [
+        "I can provide general information about common health topics."
+      ],
+      "medicine_information": "I can provide general medication information, but I cannot prescribe medicines or provide personalized treatment.",
+      "dose_guidance": "Always follow the medicine label or instructions from a qualified healthcare professional.",
+      "overdose_warning": "Never take more medicine than the recommended amount. If you suspect an overdose, seek urgent medical help.",
+      "doctor_advice": "For serious, persistent, or worsening symptoms, consult a healthcare professional."
+    }
+  },
+  {
+    "intent": "fever",
+    "questions": [
+      "I have fever",
+      "what are symptoms of fever",
+      "what causes fever",
+      "tell me about fever",
+      "fever symptoms",
+      "why do I have a fever",
+      "I feel feverish"
+    ],
+    "response": {
+      "problem": "Fever",
+      "general_care": [
+        "Rest and drink plenty of fluids.",
+        "Monitor your temperature.",
+        "Wear comfortable clothing and avoid overheating."
+      ],
+      "medicine_information": "Paracetamol (acetaminophen) is commonly used to reduce fever. Whether it is appropriate depends on the person and their circumstances.",
+      "dose_guidance": "Use only the dose stated on the product label or provided by a healthcare professional. Check the strength of the product carefully and do not take more than recommended.",
+      "overdose_warning": "Taking too much paracetamol can cause serious liver damage. Do not combine medicines containing paracetamol unless a healthcare professional tells you to.",
+      "doctor_advice": "Seek medical advice if the fever is severe, persistent, worsening, or accompanied by concerning symptoms."
+    }
+  },
+  {
+    "intent": "headache",
+    "questions": [
+      "I have a headache",
+      "what causes headache",
+      "headache symptoms",
+      "why does my head hurt",
+      "tell me about headache",
+      "my head is hurting",
+      "I am having a headache"
+    ],
+    "response": {
+      "problem": "Headache",
+      "general_care": [
+        "Rest in a quiet environment.",
+        "Drink enough water.",
+        "Try to get adequate sleep.",
+        "Avoid known headache triggers when possible."
+      ],
+      "medicine_information": "Some people use over-the-counter pain relievers such as paracetamol (acetaminophen) for occasional headaches. The appropriate medicine depends on the individual.",
+      "dose_guidance": "Follow the product label or advice from a healthcare professional. Do not exceed the recommended dose.",
+      "overdose_warning": "Taking too much pain medicine can cause serious harm. Do not take multiple products containing the same active ingredient.",
+      "doctor_advice": "Seek medical attention for a sudden, extremely severe, unusual, persistent, or worsening headache."
+    }
+  },
+  {
+    "intent": "cold",
+    "questions": [
+      "I have a cold",
+      "what are symptoms of cold",
+      "common cold symptoms",
+      "tell me about common cold",
+      "I think I have a cold",
+      "why is my nose running",
+      "cold symptoms"
+    ],
+    "response": {
+      "problem": "Common Cold",
+      "general_care": [
+        "Rest and stay hydrated.",
+        "Warm fluids may help soothe a sore throat.",
+        "Maintain good hand hygiene to reduce spreading infection."
+      ],
+      "medicine_information": "Cold symptoms can sometimes be managed with over-the-counter medicines, depending on the symptoms. Many common colds improve with rest and supportive care.",
+      "dose_guidance": "Follow the product label carefully. Avoid taking multiple cold medicines that contain the same active ingredient.",
+      "overdose_warning": "Taking too much cold medicine can cause serious side effects. Never exceed the recommended amount.",
+      "doctor_advice": "Seek medical advice if symptoms become severe, last unusually long, or are associated with difficulty breathing or other concerning symptoms."
+    }
+  },
+  {
+    "intent": "flu",
+    "questions": [
+      "I think I have flu",
+      "what are symptoms of flu",
+      "flu symptoms",
+      "tell me about influenza",
+      "I have flu",
+      "what does flu feel like",
+      "influenza symptoms"
+    ],
+    "response": {
+      "problem": "Flu",
+      "general_care": [
+        "Rest and drink plenty of fluids.",
+        "Avoid close contact with others when you are unwell.",
+        "Monitor your symptoms."
+      ],
+      "medicine_information": "Some symptoms may be relieved with appropriate over-the-counter medicines. Antiviral medicines may be prescribed by healthcare professionals for some people.",
+      "dose_guidance": "Follow the product label or instructions from a healthcare professional. Do not exceed the recommended dose.",
+      "overdose_warning": "Taking more medicine than recommended can cause serious harm. Do not combine medicines without checking their ingredients.",
+      "doctor_advice": "Contact a healthcare professional if symptoms are severe, worsening, or if you are at increased risk of complications."
+    }
+  },
+  {
+    "intent": "cough",
+    "questions": [
+      "I have a cough",
+      "why am I coughing",
+      "what causes cough",
+      "cough symptoms",
+      "tell me about cough",
+      "I keep coughing",
+      "how does a cough happen"
+    ],
+    "response": {
+      "problem": "Cough",
+      "general_care": [
+        "Stay hydrated.",
+        "Rest adequately.",
+        "Avoid smoke and other respiratory irritants."
+      ],
+      "medicine_information": "Some cough medicines are available over the counter, but their suitability depends on the type and cause of the cough.",
+      "dose_guidance": "Follow the product label and use the measuring device supplied with liquid medicines. Do not exceed the recommended dose.",
+      "overdose_warning": "Taking too much cough medicine can cause serious side effects. Never exceed the recommended amount.",
+      "doctor_advice": "Seek medical advice for a severe, persistent, bloody, or breathing-related cough."
+    }
+  },
+  {
+    "intent": "stomach_pain",
+    "questions": [
+      "I have stomach pain",
+      "my stomach hurts",
+      "what causes stomach pain",
+      "why does my stomach hurt",
+      "stomach ache",
+      "pain in my stomach",
+      "tell me about stomach pain"
+    ],
+    "response": {
+      "problem": "Stomach Pain",
+      "general_care": [
+        "Rest and drink fluids.",
+        "Avoid foods that clearly make your symptoms worse.",
+        "Monitor whether the pain improves or becomes worse."
+      ],
+      "medicine_information": "The appropriate treatment for stomach pain depends strongly on its cause. Avoid taking medicine to mask severe or unexplained pain without medical advice.",
+      "dose_guidance": "Do not take medicines for abdominal pain beyond the recommended label dose unless advised by a healthcare professional.",
+      "overdose_warning": "Taking excessive amounts of painkillers or other medicines can cause serious harm.",
+      "doctor_advice": "Seek medical attention for severe, persistent, worsening, or unexplained abdominal pain, especially when accompanied by vomiting, bleeding, fever, or fainting."
+    }
+  },
+  {
+    "intent": "allergy",
+    "questions": [
+      "I have an allergy",
+      "what are allergy symptoms",
+      "allergy symptoms",
+      "why am I sneezing",
+      "what causes allergies",
+      "tell me about allergies",
+      "I think I have an allergy"
+    ],
+    "response": {
+      "problem": "Allergy",
+      "general_care": [
+        "Try to identify and avoid known triggers.",
+        "Keep the environment clean when dust or allergens are a trigger."
+      ],
+      "medicine_information": "Antihistamines are commonly used for some allergy symptoms, but the appropriate medicine depends on the person and symptoms.",
+      "dose_guidance": "Follow the product label or instructions from a healthcare professional. Do not exceed the recommended dose.",
+      "overdose_warning": "Taking too much allergy medicine can cause serious side effects. Never exceed the recommended amount.",
+      "doctor_advice": "Seek urgent medical attention for severe allergic reactions, especially swelling of the face or throat, difficulty breathing, or fainting."
+    }
+  },
+  {
+    "intent": "prevention",
+    "questions": [
+      "how can I stay healthy",
+      "how can I prevent illness",
+      "tips for preventing diseases",
+      "how to avoid getting sick",
+      "how can I improve my health",
+      "healthy habits",
+      "disease prevention tips"
+    ],
+    "response": {
+      "problem": "Disease Prevention",
+      "general_care": [
+        "Eat a balanced diet.",
+        "Stay physically active.",
+        "Get adequate sleep.",
+        "Maintain good hygiene.",
+        "Keep recommended vaccinations up to date."
+      ],
+      "medicine_information": "Medicines are not a substitute for healthy lifestyle habits and appropriate preventive healthcare.",
+      "dose_guidance": "Use medicines and supplements only according to their labels or professional medical advice.",
+      "overdose_warning": "Taking more medicine or supplements than recommended does not improve health and can be harmful.",
+      "doctor_advice": "Have appropriate health checkups and speak with a healthcare professional about individual preventive care."
+    }
+  },
+  {
+    "intent": "first_aid",
+    "questions": [
+      "what is first aid",
+      "give me first aid information",
+      "basic first aid",
+      "what should I do for a minor injury",
+      "first aid tips",
+      "how does first aid work",
+      "I need basic first aid information"
+    ],
+    "response": {
+      "problem": "Basic First Aid",
+      "general_care": [
+        "First aid provides immediate basic care until professional help is available.",
+        "For minor injuries, keep the affected area clean and protect it from further injury."
+      ],
+      "medicine_information": "First aid treatment depends on the type and severity of the injury.",
+      "dose_guidance": "Do not use medicines as a substitute for appropriate first aid or professional medical care.",
+      "overdose_warning": "Never use more medicine than the recommended amount while treating an injury.",
+      "doctor_advice": "For serious injuries, heavy bleeding, loss of consciousness, severe burns, or other emergencies, seek urgent medical assistance."
+    }
+  },
+  {
+    "intent": "doctor_visit",
+    "questions": [
+      "when should I see a doctor",
+      "should I visit a doctor",
+      "do I need to see a doctor",
+      "when should I seek medical advice",
+      "should I talk to a healthcare professional",
+      "when do I need medical help",
+      "I am not sure if I should see a doctor"
+    ],
+    "response": {
+      "problem": "When to See a Doctor",
+      "general_care": [
+        "Monitor your symptoms and note whether they are improving or worsening."
+      ],
+      "medicine_information": "A healthcare professional can help determine whether medicine is appropriate for your symptoms.",
+      "dose_guidance": "Do not change or increase medicine doses without professional advice.",
+      "overdose_warning": "If you think you have taken too much medicine, seek urgent medical advice.",
+      "doctor_advice": "Consider speaking with a healthcare professional when symptoms are severe, persistent, worsening, unusual, or affecting daily activities."
+    }
+  },
+  {
+    "intent": "medication_information",
+    "questions": [
+      "what is medication",
+      "what should I know about medicines",
+      "how do medicines work",
+      "tell me about medications",
+      "medicine information",
+      "what are medicines used for",
+      "general medication information"
+    ],
+    "response": {
+      "problem": "Medication Information",
+      "general_care": [
+        "Medicines should be used according to their instructions."
+      ],
+      "medicine_information": "Medicines are used to prevent, manage, or treat health conditions. The correct medicine depends on the condition and the individual.",
+      "dose_guidance": "Follow the medicine label or instructions from a qualified healthcare professional. Do not change the dose without professional advice.",
+      "overdose_warning": "Taking more medicine than recommended can cause serious harm. If you suspect an overdose, seek urgent medical help.",
+      "doctor_advice": "Ask a doctor or pharmacist if you are unsure about a medicine, dose, interaction, or side effect."
+    }
+  },
+  {
+    "intent": "general_health",
+    "questions": [
+      "give me health advice",
+      "tell me about health",
+      "general health information",
+      "how can I maintain good health",
+      "what are healthy habits",
+      "health tips",
+      "I want to learn about health"
+    ],
+    "response": {
+      "problem": "General Health",
+      "general_care": [
+        "Eat a balanced diet.",
+        "Exercise regularly.",
+        "Get adequate sleep.",
+        "Maintain good hygiene.",
+        "Manage stress in healthy ways."
+      ],
+      "medicine_information": "Medicines should be used for appropriate medical reasons and according to professional advice.",
+      "dose_guidance": "Follow medicine labels and professional medical instructions.",
+      "overdose_warning": "Never take more medicine than recommended.",
+      "doctor_advice": "Regular healthcare checkups can help identify and manage health concerns."
+    }
+  },
+  {
+    "intent": "emergency",
+    "questions": [
+      "I need emergency help",
+      "this is a medical emergency",
+      "what should I do in an emergency",
+      "I need urgent medical help",
+      "someone needs immediate medical attention",
+      "this is urgent",
+      "help me with a medical emergency"
+    ],
+    "response": {
+      "problem": "Medical Emergency",
+      "general_care": [
+        "Seek urgent medical attention immediately."
+      ],
+      "medicine_information": "Do not rely on this application for emergency treatment or medication instructions.",
+      "dose_guidance": "Do not delay emergency care while trying to determine a medicine dose.",
+      "overdose_warning": "If an overdose may have occurred, seek emergency medical help immediately.",
+      "doctor_advice": "Contact your local emergency service or go to the nearest hospital/emergency department immediately."
+    }
+  },
+  {
+    "intent": "unknown",
+    "questions": [
+      "tell me something",
+      "I have a question",
+      "what can you do",
+      "help me",
+      "I do not know what to ask",
+      "can you answer questions",
+      "I need information"
+    ],
+    "response": {
+      "problem": "Unknown Health Question",
+      "general_care": [
+        "I can provide general information about common health topics."
+      ],
+      "medicine_information": "Please ask about a specific health topic or medicine.",
+      "dose_guidance": "Do not take medicine based only on information from this application.",
+      "overdose_warning": "Never exceed the recommended dose of any medicine.",
+      "doctor_advice": "For serious or concerning symptoms, consult a healthcare professional."
+    }
+  }
+]
