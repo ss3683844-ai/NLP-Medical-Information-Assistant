@@ -18,44 +18,88 @@ function App() {
   // Voice Input
   // -------------------------------
   const startVoiceInput = () => {
-    const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
-    if (!SpeechRecognition) {
-      alert(
-        "Voice input is not supported in this browser. Please use Google Chrome."
-      );
-      return;
-    }
+  if (!SpeechRecognition) {
+    alert(
+      "Voice input is not supported in this browser. Please use Google Chrome."
+    );
+    return;
+  }
 
-    const recognition = new SpeechRecognition();
+  const recognition = new SpeechRecognition();
 
-    recognition.lang = "en-IN";
-    recognition.continuous = false;
-    recognition.interimResults = false;
+  recognition.lang = "en-IN";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
 
-    recognition.onstart = () => {
-      setListening(true);
-    };
-
-    recognition.onresult = (event) => {
-      const speechText =
-        event.results[0][0].transcript;
-
-      setMessage(speechText);
-    };
-
-    recognition.onerror = () => {
-      setListening(false);
-    };
-
-    recognition.onend = () => {
-      setListening(false);
-    };
-
-    recognition.start();
+  recognition.onstart = () => {
+    console.log("Voice recognition started");
+    setListening(true);
   };
+
+  recognition.onresult = (event) => {
+    console.log("Voice result received");
+
+    const speechText =
+      event.results[0][0].transcript;
+
+    console.log("Recognized text:", speechText);
+
+    setMessage(speechText);
+    setListening(false);
+  };
+
+  recognition.onerror = (event) => {
+    console.error(
+      "Speech recognition error:",
+      event.error
+    );
+
+    setListening(false);
+
+    if (event.error === "not-allowed") {
+      alert(
+        "Microphone permission denied. Please allow microphone access."
+      );
+    } else if (event.error === "no-speech") {
+      alert(
+        "No speech detected. Please speak clearly and try again."
+      );
+    } else if (event.error === "audio-capture") {
+      alert(
+        "Microphone not detected. Please check your microphone."
+      );
+    } else if (event.error === "network") {
+      alert(
+        "Speech recognition network error. Please check your internet connection."
+      );
+    } else {
+      alert(
+        "Voice recognition failed. Please try again."
+      );
+    }
+  };
+
+  recognition.onend = () => {
+    console.log("Voice recognition ended");
+    setListening(false);
+  };
+
+  try {
+    recognition.start();
+  } catch (error) {
+    console.error(
+      "Could not start voice recognition:",
+      error
+    );
+
+    setListening(false);
+  }
+};
 
   // -------------------------------
   // Send Message
