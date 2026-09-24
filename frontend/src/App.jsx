@@ -12,94 +12,6 @@ function App() {
   ]);
 
   const [loading, setLoading] = useState(false);
-  const [listening, setListening] = useState(false);
-
-  // -------------------------------
-  // Voice Input
-  // -------------------------------
-  const startVoiceInput = () => {
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-  if (!SpeechRecognition) {
-    alert(
-      "Voice input is not supported in this browser. Please use Google Chrome."
-    );
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-
-  recognition.lang = "en-IN";
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  recognition.onstart = () => {
-    console.log("Voice recognition started");
-    setListening(true);
-  };
-
-  recognition.onresult = (event) => {
-    console.log("Voice result received");
-
-    const speechText =
-      event.results[0][0].transcript;
-
-    console.log("Recognized text:", speechText);
-
-    setMessage(speechText);
-    setListening(false);
-  };
-
-  recognition.onerror = (event) => {
-    console.error(
-      "Speech recognition error:",
-      event.error
-    );
-
-    setListening(false);
-
-    if (event.error === "not-allowed") {
-      alert(
-        "Microphone permission denied. Please allow microphone access."
-      );
-    } else if (event.error === "no-speech") {
-      alert(
-        "No speech detected. Please speak clearly and try again."
-      );
-    } else if (event.error === "audio-capture") {
-      alert(
-        "Microphone not detected. Please check your microphone."
-      );
-    } else if (event.error === "network") {
-      alert(
-        "Speech recognition network error. Please check your internet connection."
-      );
-    } else {
-      alert(
-        "Voice recognition failed. Please try again."
-      );
-    }
-  };
-
-  recognition.onend = () => {
-    console.log("Voice recognition ended");
-    setListening(false);
-  };
-
-  try {
-    recognition.start();
-  } catch (error) {
-    console.error(
-      "Could not start voice recognition:",
-      error
-    );
-
-    setListening(false);
-  }
-};
 
   // -------------------------------
   // Send Message
@@ -148,11 +60,9 @@ function App() {
           sender: "bot",
           problem: data.problem,
           generalCare: data.general_care,
-          medicineInformation:
-            data.medicine_information,
+          medicineInformation: data.medicine_information,
           doseGuidance: data.dose_guidance,
-          overdoseWarning:
-            data.overdose_warning,
+          overdoseWarning: data.overdose_warning,
           doctorAdvice: data.doctor_advice,
           intent: data.intent,
           confidence: data.confidence
@@ -163,8 +73,7 @@ function App() {
         ...prev,
         {
           sender: "bot",
-          text:
-            "Sorry, I could not connect to the medical assistant server."
+          text: "Sorry, I could not connect to the medical assistant server."
         }
       ]);
     }
@@ -188,8 +97,7 @@ function App() {
     setMessages([
       {
         sender: "bot",
-        text:
-          "Hello! I am your Medical Assistant. How can I help you?"
+        text: "Hello! I am your Medical Assistant. How can I help you?"
       }
     ]);
   };
@@ -238,11 +146,8 @@ function App() {
             >
 
               <div className="avatar">
-                {msg.sender === "bot"
-                  ? "🤖"
-                  : "👤"}
+                {msg.sender === "bot" ? "🤖" : "👤"}
               </div>
-
 
               <div
                 className={`message ${msg.sender}`}
@@ -375,9 +280,7 @@ function App() {
 
                             <span>
                               Confidence:{" "}
-                              {(
-                                msg.confidence * 100
-                              ).toFixed(1)}
+                              {(msg.confidence * 100).toFixed(1)}
                               %
                             </span>
 
@@ -465,9 +368,7 @@ function App() {
 
           <button
             onClick={() =>
-              setMessage(
-                "When should I see a doctor?"
-              )
+              setMessage("When should I see a doctor?")
             }
           >
             🏥 Doctor Visit
@@ -479,26 +380,9 @@ function App() {
         {/* Input Area */}
         <div className="input-area">
 
-          {/* Voice Button */}
-          <button
-            className={`voice-button ${
-              listening ? "listening" : ""
-            }`}
-            onClick={startVoiceInput}
-            disabled={loading}
-            title="Voice input"
-          >
-            {listening ? "🔴" : "🎤"}
-          </button>
-
-
           <input
             type="text"
-            placeholder={
-              listening
-                ? "Listening..."
-                : "Ask a health-related question..."
-            }
+            placeholder="Ask a health-related question..."
             value={message}
             onChange={(event) =>
               setMessage(event.target.value)
@@ -506,7 +390,6 @@ function App() {
             onKeyDown={handleKeyPress}
             disabled={loading}
           />
-
 
           <button
             onClick={sendMessage}

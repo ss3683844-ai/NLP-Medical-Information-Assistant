@@ -13,6 +13,7 @@ app = FastAPI(
 )
 
 
+# Allow frontend to communicate with backend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -43,8 +44,9 @@ def health():
 @app.post("/chat")
 def chat(request: ChatRequest):
 
-    # Check for emergency-related messages
+    # Check for possible emergency symptoms first
     if check_emergency(request.message):
+
         return {
             "intent": "emergency",
             "confidence": 1.0,
@@ -76,5 +78,5 @@ def chat(request: ChatRequest):
             )
         }
 
-    # Generate NLP response
+    # Normal NLP-based response
     return generate_response(request.message)
