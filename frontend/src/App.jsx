@@ -36,7 +36,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/chat",
+        "https://nlp-medical-information-assistant-2.onrender.com/chat",
         {
           method: "POST",
           headers: {
