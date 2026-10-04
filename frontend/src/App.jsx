@@ -13,9 +13,9 @@ function App() {
 
   const [loading, setLoading] = useState(false);
 
-  // -------------------------------
+  // --------------------------------------------------
   // Send Message
-  // -------------------------------
+  // --------------------------------------------------
   const sendMessage = async () => {
     if (!message.trim() || loading) {
       return;
@@ -23,6 +23,7 @@ function App() {
 
     const userMessage = message.trim();
 
+    // Add user message
     setMessages((prev) => [
       ...prev,
       {
@@ -36,7 +37,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "https://nlp-medical-information-assistant-2.onrender.com/chat",
+        "http://127.0.0.1:8000/chat",
         {
           method: "POST",
           headers: {
@@ -54,6 +55,43 @@ function App() {
 
       const data = await response.json();
 
+      // --------------------------------------------------
+      // OUT-OF-DOMAIN RESPONSE
+      // --------------------------------------------------
+      if (data.intent === "out_of_domain") {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text:
+              "I can provide only medical and health-related information. Please ask a health-related question.",
+            outOfDomain: true
+          }
+        ]);
+
+        setLoading(false);
+        return;
+      }
+
+      // --------------------------------------------------
+      // INVALID / EMPTY RESPONSE
+      // --------------------------------------------------
+      if (data.intent === "invalid") {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: "Please enter a health-related question."
+          }
+        ]);
+
+        setLoading(false);
+        return;
+      }
+
+      // --------------------------------------------------
+      // NORMAL MEDICAL / EMERGENCY RESPONSE
+      // --------------------------------------------------
       setMessages((prev) => [
         ...prev,
         {
@@ -69,11 +107,14 @@ function App() {
         }
       ]);
     } catch (error) {
+      console.error("Error:", error);
+
       setMessages((prev) => [
         ...prev,
         {
           sender: "bot",
-          text: "Sorry, I could not connect to the medical assistant server."
+          text:
+            "Sorry, I could not connect to the medical assistant server."
         }
       ]);
     }
@@ -81,18 +122,18 @@ function App() {
     setLoading(false);
   };
 
-  // -------------------------------
+  // --------------------------------------------------
   // Enter Key
-  // -------------------------------
+  // --------------------------------------------------
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       sendMessage();
     }
   };
 
-  // -------------------------------
+  // --------------------------------------------------
   // Clear Chat
-  // -------------------------------
+  // --------------------------------------------------
   const clearChat = () => {
     setMessages([
       {
@@ -102,312 +143,309 @@ function App() {
     ]);
   };
 
+  // --------------------------------------------------
+  // Suggestions
+  // --------------------------------------------------
+  const suggestions = [
+    "Fever",
+    "Headache",
+    "Cold",
+    "Cough",
+    "Stomach Pain",
+    "Doctor Visit"
+  ];
+
+  const handleSuggestion = (suggestion) => {
+    setMessage(suggestion);
+  };
+
+  // --------------------------------------------------
+  // UI
+  // --------------------------------------------------
   return (
     <div className="app">
 
-      <div className="chat-container">
-
-        {/* Header */}
-        <div className="header">
-
-          <div className="header-top">
-
-            <h1>🩺 Medical Assistant</h1>
-
-            <button
-              className="clear-button"
-              onClick={clearChat}
-            >
-              Clear Chat
-            </button>
-
-          </div>
-
-          <p>
-            NLP-Based Medical Information Assistant
-          </p>
-
-          <div className="status">
-            <span className="status-dot"></span>
-            Online
-          </div>
-
+      {/* Header */}
+      <header className="header">
+        <div>
+          <h1>Medical Assistant</h1>
+          <p>NLP-Based Medical Information Assistant</p>
         </div>
 
+        <button
+          className="clear-button"
+          onClick={clearChat}
+        >
+          Clear Chat
+        </button>
+      </header>
 
-        {/* Chat */}
-        <div className="chat-box">
 
-          {messages.map((msg, index) => (
+      {/* Chat Area */}
+      <main className="chat-container">
 
+        {messages.map((msg, index) => (
+
+          <div
+            key={index}
+            className={`message-wrapper ${msg.sender}`}
+          >
+
+            {/* Avatar */}
+            <div className="avatar">
+              {msg.sender === "bot" ? "🤖" : "👤"}
+            </div>
+
+
+            {/* Message */}
             <div
-              key={index}
-              className={`message-wrapper ${msg.sender}`}
+              className={`message ${msg.sender}`}
             >
 
-              <div className="avatar">
-                {msg.sender === "bot" ? "🤖" : "👤"}
+              {/* Name */}
+              <div className="message-name">
+                {msg.sender === "bot"
+                  ? "Medical Assistant"
+                  : "You"}
               </div>
 
-              <div
-                className={`message ${msg.sender}`}
-              >
 
-                <div className="message-name">
-                  {msg.sender === "bot"
-                    ? "Medical Assistant"
-                    : "You"}
+              {/* Normal Text Message */}
+              {msg.text && (
+                <div className="message-text">
+                  {msg.text}
                 </div>
+              )}
 
 
-                {/* Normal text message */}
-                {msg.text && (
-                  <div className="message-text">
-                    {msg.text}
+              {/* ------------------------------------------------
+                  OUT-OF-DOMAIN MESSAGE
+                  ------------------------------------------------ */}
+              {msg.outOfDomain && (
+                <div className="out-of-domain-message">
+                  <div className="out-of-domain-title">
+                    🩺 Medical Assistant
                   </div>
-                )}
+
+                  <div className="out-of-domain-text">
+                    I can provide only medical and health-related
+                    information.
+                  </div>
+
+                  <div className="out-of-domain-text">
+                    Please ask a health-related question.
+                  </div>
+                </div>
+              )}
 
 
-                {/* Structured Medical Response */}
-                {msg.sender === "bot" &&
-                  msg.problem && (
+              {/* ------------------------------------------------
+                  STRUCTURED MEDICAL RESPONSE
+                  ------------------------------------------------ */}
+              {msg.sender === "bot" &&
+                msg.problem &&
+                !msg.outOfDomain && (
 
-                    <div className="medical-response">
+                <div className="medical-response">
 
-                      {/* Problem */}
-                      <div className="medical-section problem-section">
+                  {/* Problem */}
+                  <div className="medical-section problem-section">
 
-                        <div className="section-title">
-                          🩺 Possible Topic
-                        </div>
+                    <div className="section-title">
+                      🩺 Possible Topic
+                    </div>
 
-                        <div className="section-content">
-                          {msg.problem}
-                        </div>
+                    <div className="section-content">
+                      {msg.problem}
+                    </div>
 
+                  </div>
+
+
+                  {/* General Care */}
+                  {msg.generalCare &&
+                    msg.generalCare.length > 0 && (
+
+                    <div className="medical-section">
+
+                      <div className="section-title">
+                        🏠 General Care
                       </div>
 
-
-                      {/* General Care */}
-                      {msg.generalCare &&
-                        msg.generalCare.length > 0 && (
-
-                          <div className="medical-section">
-
-                            <div className="section-title">
-                              🏠 General Care
-                            </div>
-
-                            <ul>
-                              {msg.generalCare.map(
-                                (item, i) => (
-                                  <li key={i}>
-                                    {item}
-                                  </li>
-                                )
-                              )}
-                            </ul>
-
-                          </div>
+                      <ul>
+                        {msg.generalCare.map(
+                          (item, i) => (
+                            <li key={i}>
+                              {item}
+                            </li>
+                          )
                         )}
-
-
-                      {/* Medicine */}
-                      <div className="medical-section medicine-section">
-
-                        <div className="section-title">
-                          💊 Medicine Information
-                        </div>
-
-                        <div className="section-content">
-                          {msg.medicineInformation}
-                        </div>
-
-                      </div>
-
-
-                      {/* Dose */}
-                      <div className="medical-section dose-section">
-
-                        <div className="section-title">
-                          📏 Dose Safety
-                        </div>
-
-                        <div className="section-content">
-                          {msg.doseGuidance}
-                        </div>
-
-                      </div>
-
-
-                      {/* Overdose */}
-                      <div className="medical-section overdose-section">
-
-                        <div className="section-title">
-                          ⚠️ Overdose Warning
-                        </div>
-
-                        <div className="section-content">
-                          {msg.overdoseWarning}
-                        </div>
-
-                      </div>
-
-
-                      {/* Doctor */}
-                      <div className="medical-section doctor-section">
-
-                        <div className="section-title">
-                          🏥 When to See a Doctor
-                        </div>
-
-                        <div className="section-content">
-                          {msg.doctorAdvice}
-                        </div>
-
-                      </div>
-
-
-                      {/* NLP */}
-                      {msg.intent &&
-                        msg.confidence !== undefined && (
-
-                          <div className="nlp-info">
-
-                            <span>
-                              Intent: {msg.intent}
-                            </span>
-
-                            <span>
-                              Confidence:{" "}
-                              {(msg.confidence * 100).toFixed(1)}
-                              %
-                            </span>
-
-                          </div>
-                        )}
+                      </ul>
 
                     </div>
                   )}
 
+
+                  {/* Medicine */}
+                  <div className="medical-section medicine-section">
+
+                    <div className="section-title">
+                      💊 Medicine Information
+                    </div>
+
+                    <div className="section-content">
+                      {msg.medicineInformation}
+                    </div>
+
+                  </div>
+
+
+                  {/* Dose */}
+                  <div className="medical-section dose-section">
+
+                    <div className="section-title">
+                      📏 Dose Safety
+                    </div>
+
+                    <div className="section-content">
+                      {msg.doseGuidance}
+                    </div>
+
+                  </div>
+
+
+                  {/* Overdose */}
+                  <div className="medical-section overdose-section">
+
+                    <div className="section-title">
+                      ⚠️ Overdose Warning
+                    </div>
+
+                    <div className="section-content">
+                      {msg.overdoseWarning}
+                    </div>
+
+                  </div>
+
+
+                  {/* Doctor */}
+                  <div className="medical-section doctor-section">
+
+                    <div className="section-title">
+                      🏥 When to See a Doctor
+                    </div>
+
+                    <div className="section-content">
+                      {msg.doctorAdvice}
+                    </div>
+
+                  </div>
+
+
+                  {/* NLP Information */}
+                  {msg.intent &&
+                    msg.confidence !== undefined && (
+
+                    <div className="nlp-info">
+
+                      <span>
+                        Intent: {msg.intent}
+                      </span>
+
+                      <span>
+                        Confidence:{" "}
+                        {(msg.confidence * 100).toFixed(1)}%
+                      </span>
+
+                    </div>
+                  )}
+
+                </div>
+              )}
+
+            </div>
+
+          </div>
+
+        ))}
+
+
+        {/* Thinking */}
+        {loading && (
+
+          <div className="message-wrapper bot">
+
+            <div className="avatar">
+              🤖
+            </div>
+
+            <div className="message bot">
+
+              <div className="message-name">
+                Medical Assistant
+              </div>
+
+              <div className="thinking">
+                Thinking...
               </div>
 
             </div>
-          ))}
+
+          </div>
+
+        )}
+
+      </main>
 
 
-          {/* Thinking */}
-          {loading && (
+      {/* Suggestions */}
+      <div className="suggestions">
 
-            <div className="message-wrapper bot">
-
-              <div className="avatar">
-                🤖
-              </div>
-
-              <div className="message bot">
-
-                <div className="message-name">
-                  Medical Assistant
-                </div>
-
-                <div className="thinking">
-                  Thinking...
-                </div>
-
-              </div>
-
-            </div>
-          )}
-
-        </div>
-
-
-        {/* Suggestions */}
-        <div className="suggestions">
+        {suggestions.map((suggestion) => (
 
           <button
+            key={suggestion}
             onClick={() =>
-              setMessage("I have a fever")
+              handleSuggestion(suggestion)
             }
           >
-            🤒 Fever
+            {suggestion}
           </button>
 
-          <button
-            onClick={() =>
-              setMessage("I have a headache")
-            }
-          >
-            🤕 Headache
-          </button>
+        ))}
 
-          <button
-            onClick={() =>
-              setMessage("I have a cold")
-            }
-          >
-            🤧 Cold
-          </button>
-
-          <button
-            onClick={() =>
-              setMessage("I have a cough")
-            }
-          >
-            😷 Cough
-          </button>
-
-          <button
-            onClick={() =>
-              setMessage("I have stomach pain")
-            }
-          >
-            🤢 Stomach Pain
-          </button>
-
-          <button
-            onClick={() =>
-              setMessage("When should I see a doctor?")
-            }
-          >
-            🏥 Doctor Visit
-          </button>
-
-        </div>
+      </div>
 
 
-        {/* Input Area */}
-        <div className="input-area">
+      {/* Input */}
+      <div className="input-area">
 
-          <input
-            type="text"
-            placeholder="Ask a health-related question..."
-            value={message}
-            onChange={(event) =>
-              setMessage(event.target.value)
-            }
-            onKeyDown={handleKeyPress}
-            disabled={loading}
-          />
+        <input
+          type="text"
+          placeholder="Ask a health-related question..."
+          value={message}
+          onChange={(event) =>
+            setMessage(event.target.value)
+          }
+          onKeyDown={handleKeyPress}
+          disabled={loading}
+        />
 
-          <button
-            onClick={sendMessage}
-            disabled={loading}
-          >
-            {loading ? "..." : "Send"}
-          </button>
+        <button
+          onClick={sendMessage}
+          disabled={loading}
+        >
+          {loading ? "..." : "Send"}
+        </button>
 
-        </div>
+      </div>
 
 
-        {/* Disclaimer */}
-        <div className="disclaimer">
-          ⚠️ This application provides general health
-          information only. It is not a substitute for
-          professional medical advice.
-        </div>
-
+      {/* Disclaimer */}
+      <div className="disclaimer">
+        This application provides general health information
+        for educational purposes only. It does not provide
+        diagnosis or personalized medical treatment.
       </div>
 
     </div>
