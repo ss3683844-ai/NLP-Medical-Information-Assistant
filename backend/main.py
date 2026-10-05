@@ -3,12 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from services.nlp import generate_response
-from services.safety import check_emergency
+from services.safety import check_emergency, emergency_response
 
 
-# ---------------------------------------------------------
-# FastAPI Application
-# ---------------------------------------------------------
+# =========================================================
+# FASTAPI APPLICATION
+# =========================================================
 
 app = FastAPI(
     title="Medical Assistant API",
@@ -17,9 +17,9 @@ app = FastAPI(
 )
 
 
-# ---------------------------------------------------------
-# CORS Configuration
-# ---------------------------------------------------------
+# =========================================================
+# CORS
+# =========================================================
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,110 +30,17 @@ app.add_middleware(
 )
 
 
-# ---------------------------------------------------------
-# Request Model
-# ---------------------------------------------------------
+# =========================================================
+# REQUEST MODEL
+# =========================================================
 
 class ChatRequest(BaseModel):
     message: str
 
 
-# ---------------------------------------------------------
-# Medical Keywords
-# ---------------------------------------------------------
-
-MEDICAL_KEYWORDS = [
-    "health",
-    "healthy",
-    "medical",
-    "medicine",
-    "medication",
-    "medicines",
-    "doctor",
-    "hospital",
-    "clinic",
-    "symptom",
-    "symptoms",
-    "disease",
-    "diseases",
-    "illness",
-    "pain",
-    "fever",
-    "headache",
-    "cold",
-    "cough",
-    "flu",
-    "allergy",
-    "allergic",
-    "stomach",
-    "vomiting",
-    "vomit",
-    "nausea",
-    "diarrhea",
-    "diarrhoea",
-    "rash",
-    "infection",
-    "blood",
-    "bleeding",
-    "breathing",
-    "breath",
-    "chest",
-    "heart",
-    "dizzy",
-    "dizziness",
-    "fatigue",
-    "weakness",
-    "tablet",
-    "tablets",
-    "drug",
-    "drugs",
-    "dose",
-    "dosage",
-    "overdose",
-    "pregnancy",
-    "pregnant",
-    "anxiety",
-    "stress",
-    "sleep",
-    "insomnia",
-    "sick",
-    "sickness",
-    "injury",
-    "injured",
-    "body",
-    "temperature",
-    "blood pressure",
-    "bp",
-    "sugar",
-    "diabetes",
-    "constipation",
-    "migraine",
-    "throat",
-    "ear",
-    "eye",
-    "skin",
-    "tooth",
-    "teeth"
-]
-
-
-# ---------------------------------------------------------
-# Check Whether Question Is Medical
-# ---------------------------------------------------------
-
-def is_medical_question(text: str):
-    text = text.lower().strip()
-
-    for keyword in MEDICAL_KEYWORDS:
-        if keyword in text:
-            return True
-
-    return False
-
-
-# ---------------------------------------------------------
-# Root Endpoint
-# ---------------------------------------------------------
+# =========================================================
+# ROOT
+# =========================================================
 
 @app.get("/")
 def root():
@@ -142,9 +49,9 @@ def root():
     }
 
 
-# ---------------------------------------------------------
-# Health Check Endpoint
-# ---------------------------------------------------------
+# =========================================================
+# HEALTH
+# =========================================================
 
 @app.get("/health")
 def health():
@@ -153,18 +60,17 @@ def health():
     }
 
 
-# ---------------------------------------------------------
-# Chat Endpoint
-# ---------------------------------------------------------
+# =========================================================
+# CHAT
+# =========================================================
 
 @app.post("/chat")
 def chat(request: ChatRequest):
 
     user_message = request.message.strip()
 
-
     # -----------------------------------------------------
-    # 1. Empty Question Check
+    # 1. EMPTY MESSAGE
     # -----------------------------------------------------
 
     if not user_message:
@@ -178,111 +84,45 @@ def chat(request: ChatRequest):
                 "Please enter a health-related question."
             ],
 
-            "medicine_information": (
+            "medicine_information":
                 "No medicine information is available because "
-                "no question was provided."
-            ),
+                "no question was provided.",
 
-            "dose_guidance": (
-                "No dose guidance is available."
-            ),
+            "dose_guidance":
+                "No dose guidance is available.",
 
-            "overdose_warning": (
-                "No overdose information is available."
-            ),
+            "overdose_warning":
+                "No overdose information is available.",
 
-            "doctor_advice": (
+            "doctor_advice":
                 "Please enter a medical or health-related question."
-            )
         }
 
-
     # -----------------------------------------------------
-    # 2. Emergency Check
+    # 2. EMERGENCY CHECK
     # -----------------------------------------------------
-
-    # Emergency questions are checked before normal
-    # medical classification.
 
     if check_emergency(user_message):
-
-        return {
-            "intent": "emergency",
-            "confidence": 1.0,
-            "problem": "Possible Medical Emergency",
-
-            "general_care": [
-                "Seek urgent medical attention immediately.",
-                "Contact your local emergency service or go to the nearest emergency department.",
-                "Do not delay emergency care while using this application."
-            ],
-
-            "medicine_information": (
-                "Do not rely on this application for emergency "
-                "medication instructions. Follow instructions from "
-                "emergency medical professionals."
-            ),
-
-            "dose_guidance": (
-                "Do not delay emergency treatment to calculate "
-                "or take medication."
-            ),
-
-            "overdose_warning": (
-                "If an overdose or poisoning may have occurred, "
-                "seek urgent medical help or contact your local "
-                "poison-control service."
-            ),
-
-            "doctor_advice": (
-                "This may describe a medical emergency. Contact "
-                "your local emergency service immediately or go "
-                "to the nearest hospital."
-            )
-        }
-
+        return emergency_response()
 
     # -----------------------------------------------------
-    # 3. Non-Medical Question Check
-    # -----------------------------------------------------
-
-    # Prevents unrelated questions from being sent
-    # to the medical NLP model.
-
-    if not is_medical_question(user_message):
-
-        return {
-            "intent": "out_of_domain",
-            "confidence": 1.0,
-            "problem": "Question Outside Medical Scope",
-
-            "general_care": [
-                "Sorry, I can only provide medical and health-related information. Please ask a health-related question."
-            ],
-
-            "medicine_information": (
-                "This assistant provides information only "
-                "about medical and health-related topics."
-            ),
-
-            "dose_guidance": (
-                "Dose guidance is available only for "
-                "medical and medication-related questions."
-            ),
-
-            "overdose_warning": (
-                "For medication or poisoning concerns, "
-                "please ask a medical question or seek professional help."
-            ),
-
-            "doctor_advice": (
-                "Please ask a medical or health-related question."
-            )
-        }
-
-
-    # -----------------------------------------------------
-    # 4. Normal NLP-Based Medical Response
+    # 3. NLP MODEL
     # -----------------------------------------------------
 
     return generate_response(user_message)
+
+
+# =========================================================
+# RUN SERVER
+# =========================================================
+
+if __name__ == "__main__":
+
+    import uvicorn
+
+    uvicorn.run(
+        "main:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True
+    )

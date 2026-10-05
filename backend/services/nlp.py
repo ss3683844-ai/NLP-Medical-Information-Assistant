@@ -1,171 +1,272 @@
 import json
+import os
 import joblib
 
 
-# --------------------------------------------------
-# Load trained NLP model
-# --------------------------------------------------
-model = joblib.load(
-    "models/intent_model.pkl"
-)
+# =========================================================
+# FILE PATHS
+# =========================================================
+
+MODEL_FILE = "models/intent_model.pkl"
+DATA_FILE = "data/medical_data.json"
 
 
-# --------------------------------------------------
-# Load medical data
-# --------------------------------------------------
-with open(
-    "data/medical_data.json",
-    "r",
-    encoding="utf-8"
-) as file:
+# =========================================================
+# CONFIDENCE THRESHOLD
+# =========================================================
+
+CONFIDENCE_THRESHOLD = 0.40
+
+
+# =========================================================
+# GREETING WORDS
+# =========================================================
+
+GREETING_WORDS = {
+    "hi",
+    "hello",
+    "hey",
+    "hii",
+    "hiii",
+    "good morning",
+    "good afternoon",
+    "good evening"
+}
+
+
+# =========================================================
+# FILE CHECKS
+# =========================================================
+
+if not os.path.exists(MODEL_FILE):
+    raise FileNotFoundError(
+        f"Model file not found: {MODEL_FILE}. "
+        f"Run train_model.py first."
+    )
+
+if not os.path.exists(DATA_FILE):
+    raise FileNotFoundError(
+        f"Medical data file not found: {DATA_FILE}"
+    )
+
+
+# =========================================================
+# LOAD MODEL
+# =========================================================
+
+model = joblib.load(MODEL_FILE)
+
+
+# =========================================================
+# LOAD MEDICAL DATA
+# =========================================================
+
+with open(DATA_FILE, "r", encoding="utf-8") as file:
     medical_data = json.load(file)
 
 
-# --------------------------------------------------
-# Create intent -> response mapping
-# --------------------------------------------------
+# =========================================================
+# RESPONSE DATA
+# =========================================================
+
 responses = {
-    item["intent"]: item["response"]
+    item["intent"]: item.get("response", {})
     for item in medical_data
 }
 
 
-# --------------------------------------------------
-# Generate Response
-# --------------------------------------------------
+# =========================================================
+# GREETING CHECK
+# =========================================================
+
+def is_greeting(text: str) -> bool:
+
+    if not isinstance(text, str):
+        return False
+
+    cleaned_text = text.lower().strip()
+
+    return cleaned_text in GREETING_WORDS
+
+
+# =========================================================
+# UNKNOWN RESPONSE
+# =========================================================
+
+def unknown_response(confidence=0.0):
+
+    return {
+        "intent": "unknown",
+        "confidence": confidence,
+
+        "problem":
+            "I could not confidently understand "
+            "the medical topic.",
+
+        "general_care": [
+            "Please describe your symptoms more clearly.",
+            "Include the main symptom and how long "
+            "you have had it."
+        ],
+
+        "medicine_information":
+            "I cannot provide medicine information until "
+            "the medical topic is understood clearly.",
+
+        "dose_guidance":
+            "Do not take medicine based only on a low-confidence "
+            "chatbot prediction.",
+
+        "overdose_warning":
+            "Never take more medicine than recommended.",
+
+        "doctor_advice":
+            "If symptoms are severe, persistent, or worsening, "
+            "consult a healthcare professional."
+    }
+
+
+# =========================================================
+# GENERATE RESPONSE
+# =========================================================
+
 def generate_response(text: str):
 
-    # Get prediction probabilities
+    # -----------------------------------------------------
+    # EMPTY INPUT
+    # -----------------------------------------------------
+
+    if not isinstance(text, str) or not text.strip():
+        return unknown_response()
+
+
+    # -----------------------------------------------------
+    # GREETING
+    # -----------------------------------------------------
+
+    if is_greeting(text):
+
+        response_data = responses.get("greeting")
+
+        if response_data:
+
+            return {
+                "intent": "greeting",
+                "confidence": 1.0,
+
+                "problem":
+                    response_data.get(
+                        "problem",
+                        "Hello! How can I help you with your health question?"
+                    ),
+
+                "general_care":
+                    response_data.get(
+                        "general_care",
+                        []
+                    ),
+
+                "medicine_information":
+                    response_data.get(
+                        "medicine_information",
+                        "I can provide general medical information."
+                    ),
+
+                "dose_guidance":
+                    response_data.get(
+                        "dose_guidance",
+                        "Follow healthcare professional or "
+                        "product-label instructions."
+                    ),
+
+                "overdose_warning":
+                    response_data.get(
+                        "overdose_warning",
+                        "Never exceed the recommended dose."
+                    ),
+
+                "doctor_advice":
+                    response_data.get(
+                        "doctor_advice",
+                        "Consult a healthcare professional when needed."
+                    )
+            }
+
+
+    # -----------------------------------------------------
+    # PREDICT PROBABILITIES
+    # -----------------------------------------------------
+
     probabilities = model.predict_proba([text])[0]
 
-    # Find highest probability
     index = probabilities.argmax()
 
-    # Get predicted intent
     intent = model.classes_[index]
 
-    # Get confidence
     confidence = float(probabilities[index])
 
 
-    # --------------------------------------------------
-    # Confidence Threshold
-    # --------------------------------------------------
-    # If the model is not confident enough,
-    # treat the question as unknown.
-    #
-    # 0.50 = 50%
-    #
-    CONFIDENCE_THRESHOLD = 0.50
-
+    # -----------------------------------------------------
+    # CONFIDENCE CHECK
+    # -----------------------------------------------------
 
     if confidence < CONFIDENCE_THRESHOLD:
-
-        return {
-            "intent": "unknown",
-            "confidence": round(confidence, 3),
-
-            "problem": "I don't know",
-
-            "general_care": [
-                "I don't have enough information to answer this question accurately."
-            ],
-
-            "medicine_information": (
-                "I don't have reliable information about this specific question."
-            ),
-
-            "dose_guidance": (
-                "I cannot provide dose guidance when I am not "
-                "confident about the medical topic."
-            ),
-
-            "overdose_warning": (
-                "If this question involves an overdose or poisoning, "
-                "seek urgent medical help."
-            ),
-
-            "doctor_advice": (
-                "Please consult a qualified healthcare professional "
-                "for accurate advice."
-            )
-        }
+        return unknown_response(confidence)
 
 
-    # --------------------------------------------------
-    # Get structured response
-    # --------------------------------------------------
+    # -----------------------------------------------------
+    # GET RESPONSE DATA
+    # -----------------------------------------------------
+
     response_data = responses.get(intent)
 
-
-    # --------------------------------------------------
-    # Intent not found in medical data
-    # --------------------------------------------------
     if response_data is None:
-
-        return {
-            "intent": "unknown",
-            "confidence": round(confidence, 3),
-
-            "problem": "I don't know",
-
-            "general_care": [
-                "I don't have enough information to answer this question accurately."
-            ],
-
-            "medicine_information": (
-                "I don't have reliable information about this specific question."
-            ),
-
-            "dose_guidance": (
-                "I cannot provide dose guidance for this question."
-            ),
-
-            "overdose_warning": (
-                "If this involves an overdose or poisoning, "
-                "seek urgent medical help."
-            ),
-
-            "doctor_advice": (
-                "Please consult a qualified healthcare professional."
-            )
-        }
+        return unknown_response(confidence)
 
 
-    # --------------------------------------------------
-    # Return known medical response
-    # --------------------------------------------------
+    # -----------------------------------------------------
+    # RETURN RESPONSE
+    # -----------------------------------------------------
+
     return {
         "intent": intent,
-        "confidence": round(confidence, 3),
+        "confidence": confidence,
 
-        "problem": response_data.get(
-            "problem",
-            "General Health Information"
-        ),
+        "problem":
+            response_data.get(
+                "problem",
+                "Medical information"
+            ),
 
-        "general_care": response_data.get(
-            "general_care",
-            []
-        ),
+        "general_care":
+            response_data.get(
+                "general_care",
+                []
+            ),
 
-        "medicine_information": response_data.get(
-            "medicine_information",
-            "No medicine information available."
-        ),
+        "medicine_information":
+            response_data.get(
+                "medicine_information",
+                "No medicine information available."
+            ),
 
-        "dose_guidance": response_data.get(
-            "dose_guidance",
-            "Follow the medicine label or professional medical advice."
-        ),
+        "dose_guidance":
+            response_data.get(
+                "dose_guidance",
+                "Follow the product label or "
+                "healthcare professional's instructions."
+            ),
 
-        "overdose_warning": response_data.get(
-            "overdose_warning",
-            "Never exceed the recommended dose."
-        ),
+        "overdose_warning":
+            response_data.get(
+                "overdose_warning",
+                "Never exceed the recommended dose."
+            ),
 
-        "doctor_advice": response_data.get(
-            "doctor_advice",
-            "Consult a healthcare professional if symptoms are concerning."
-        )
+        "doctor_advice":
+            response_data.get(
+                "doctor_advice",
+                "Consult a healthcare professional "
+                "if symptoms persist or worsen."
+            )
     }
