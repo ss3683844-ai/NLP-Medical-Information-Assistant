@@ -93,7 +93,7 @@ def is_greeting(text: str) -> bool:
 # UNKNOWN RESPONSE
 # =========================================================
 
-def unknown_response(confidence=0.0):
+def unknown_response(confidence=0.15):
 
     return {
         "intent": "unknown",

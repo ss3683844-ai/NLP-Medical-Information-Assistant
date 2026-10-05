@@ -49,11 +49,31 @@ function App() {
         }
       );
 
+      // --------------------------------------------------
+      // Check server response
+      // --------------------------------------------------
       if (!response.ok) {
-        throw new Error("Server error");
+        let errorMessage = `Server error: ${response.status}`;
+
+        try {
+          const errorData = await response.json();
+
+          if (errorData.detail) {
+            errorMessage = errorData.detail;
+          }
+        } catch {
+          // Ignore JSON parsing error
+        }
+
+        throw new Error(errorMessage);
       }
 
+      // --------------------------------------------------
+      // Convert response to JSON
+      // --------------------------------------------------
       const data = await response.json();
+
+      console.log("Backend response:", data);
 
       // --------------------------------------------------
       // OUT-OF-DOMAIN RESPONSE
@@ -64,12 +84,12 @@ function App() {
           {
             sender: "bot",
             text:
-              "I can provide only medical and health-related information. Please ask a health-related question.",
+              data.message ||
+              "Sorry, I am your Medical Assistant. I can answer only medical and health-related questions.",
             outOfDomain: true
           }
         ]);
 
-        setLoading(false);
         return;
       }
 
@@ -85,12 +105,55 @@ function App() {
           }
         ]);
 
-        setLoading(false);
         return;
       }
 
       // --------------------------------------------------
-      // NORMAL MEDICAL / EMERGENCY RESPONSE
+      // UNKNOWN MEDICAL RESPONSE
+      // --------------------------------------------------
+      if (data.intent === "unknown") {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            problem: data.problem,
+            generalCare: data.general_care,
+            medicineInformation: data.medicine_information,
+            doseGuidance: data.dose_guidance,
+            overdoseWarning: data.overdose_warning,
+            doctorAdvice: data.doctor_advice,
+            intent: data.intent,
+            confidence: data.confidence
+          }
+        ]);
+
+        return;
+      }
+
+      // --------------------------------------------------
+      // EMERGENCY RESPONSE
+      // --------------------------------------------------
+      if (data.intent === "emergency") {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            problem: data.problem,
+            generalCare: data.general_care,
+            medicineInformation: data.medicine_information,
+            doseGuidance: data.dose_guidance,
+            overdoseWarning: data.overdose_warning,
+            doctorAdvice: data.doctor_advice,
+            intent: data.intent,
+            confidence: data.confidence
+          }
+        ]);
+
+        return;
+      }
+
+      // --------------------------------------------------
+      // NORMAL MEDICAL RESPONSE
       // --------------------------------------------------
       setMessages((prev) => [
         ...prev,
@@ -107,19 +170,18 @@ function App() {
         }
       ]);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("FULL ERROR:", error);
 
       setMessages((prev) => [
         ...prev,
         {
           sender: "bot",
-          text:
-            "Sorry, I could not connect to the medical assistant server."
+          text: `❌ Error: ${error.message}`
         }
       ]);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   // --------------------------------------------------
@@ -210,8 +272,10 @@ function App() {
               </div>
 
 
-              {/* Normal Text Message */}
-              {msg.text && (
+              {/* ------------------------------------------------
+                  NORMAL TEXT MESSAGE
+                  ------------------------------------------------ */}
+              {msg.text && !msg.outOfDomain && (
                 <div className="message-text">
                   {msg.text}
                 </div>
@@ -223,18 +287,15 @@ function App() {
                   ------------------------------------------------ */}
               {msg.outOfDomain && (
                 <div className="out-of-domain-message">
+
                   <div className="out-of-domain-title">
                     🩺 Medical Assistant
                   </div>
 
                   <div className="out-of-domain-text">
-                    I can provide only medical and health-related
-                    information.
+                    {msg.text}
                   </div>
 
-                  <div className="out-of-domain-text">
-                    Please ask a health-related question.
-                  </div>
                 </div>
               )}
 
@@ -366,7 +427,6 @@ function App() {
             </div>
 
           </div>
-
         ))}
 
 
@@ -392,7 +452,6 @@ function App() {
             </div>
 
           </div>
-
         )}
 
       </main>
