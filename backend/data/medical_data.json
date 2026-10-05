@@ -8,7 +8,10 @@
       "good morning",
       "good evening",
       "hello medical assistant",
-      "can you help me"
+      "can you help me",
+      "hi medical assistant",
+      "are you a medical assistant",
+      "can you help with health questions"
     ],
     "response": {
       "problem": "General Health Question",
@@ -21,6 +24,7 @@
       "doctor_advice": "For serious, persistent, or worsening symptoms, consult a healthcare professional."
     }
   },
+
   {
     "intent": "fever",
     "questions": [
@@ -30,7 +34,10 @@
       "tell me about fever",
       "fever symptoms",
       "why do I have a fever",
-      "I feel feverish"
+      "I feel feverish",
+      "how can I manage a fever",
+      "what should I do for fever",
+      "my temperature is high"
     ],
     "response": {
       "problem": "Fever",
@@ -40,11 +47,12 @@
         "Wear comfortable clothing and avoid overheating."
       ],
       "medicine_information": "Paracetamol (acetaminophen) is commonly used to reduce fever. Whether it is appropriate depends on the person and their circumstances.",
-      "dose_guidance": "Use only the dose stated on the product label or provided by a healthcare professional. Check the strength of the product carefully and do not take more than recommended.",
+      "dose_guidance": "Use only the dose stated on the product label or provided by a healthcare professional. Do not take more than recommended.",
       "overdose_warning": "Taking too much paracetamol can cause serious liver damage. Do not combine medicines containing paracetamol unless a healthcare professional tells you to.",
       "doctor_advice": "Seek medical advice if the fever is severe, persistent, worsening, or accompanied by concerning symptoms."
     }
   },
+
   {
     "intent": "headache",
     "questions": [
@@ -54,7 +62,10 @@
       "why does my head hurt",
       "tell me about headache",
       "my head is hurting",
-      "I am having a headache"
+      "I am having a headache",
+      "how can I manage a headache",
+      "what should I do for headache",
+      "frequent headache"
     ],
     "response": {
       "problem": "Headache",
@@ -64,12 +75,41 @@
         "Try to get adequate sleep.",
         "Avoid known headache triggers when possible."
       ],
-      "medicine_information": "Some people use over-the-counter pain relievers such as paracetamol (acetaminophen) for occasional headaches. The appropriate medicine depends on the individual.",
+      "medicine_information": "Some people use over-the-counter pain relievers such as paracetamol for occasional headaches. The appropriate medicine depends on the individual.",
       "dose_guidance": "Follow the product label or advice from a healthcare professional. Do not exceed the recommended dose.",
       "overdose_warning": "Taking too much pain medicine can cause serious harm. Do not take multiple products containing the same active ingredient.",
       "doctor_advice": "Seek medical attention for a sudden, extremely severe, unusual, persistent, or worsening headache."
     }
   },
+
+  {
+    "intent": "migraine",
+    "questions": [
+      "I have a migraine",
+      "what are migraine symptoms",
+      "migraine symptoms",
+      "why do I get migraines",
+      "tell me about migraine",
+      "my head pain feels like a migraine",
+      "how can I manage migraine",
+      "what should I do for migraine",
+      "migraine headache",
+      "frequent migraines"
+    ],
+    "response": {
+      "problem": "Migraine",
+      "general_care": [
+        "Rest in a quiet, dark environment.",
+        "Drink enough fluids.",
+        "Try to identify and avoid known triggers."
+      ],
+      "medicine_information": "Some people use over-the-counter pain relievers for occasional migraine symptoms, but the appropriate option depends on the individual.",
+      "dose_guidance": "Follow the product label or professional medical advice. Do not exceed the recommended dose.",
+      "overdose_warning": "Taking too much pain medicine can cause serious harm.",
+      "doctor_advice": "Seek medical advice for frequent, severe, unusual, or worsening headaches."
+    }
+  },
+
   {
     "intent": "cold",
     "questions": [
@@ -79,21 +119,25 @@
       "tell me about common cold",
       "I think I have a cold",
       "why is my nose running",
-      "cold symptoms"
+      "cold symptoms",
+      "how can I manage a cold",
+      "what should I do for a cold",
+      "I have a runny nose"
     ],
     "response": {
       "problem": "Common Cold",
       "general_care": [
         "Rest and stay hydrated.",
         "Warm fluids may help soothe a sore throat.",
-        "Maintain good hand hygiene to reduce spreading infection."
+        "Maintain good hand hygiene."
       ],
-      "medicine_information": "Cold symptoms can sometimes be managed with over-the-counter medicines, depending on the symptoms. Many common colds improve with rest and supportive care.",
-      "dose_guidance": "Follow the product label carefully. Avoid taking multiple cold medicines that contain the same active ingredient.",
-      "overdose_warning": "Taking too much cold medicine can cause serious side effects. Never exceed the recommended amount.",
-      "doctor_advice": "Seek medical advice if symptoms become severe, last unusually long, or are associated with difficulty breathing or other concerning symptoms."
+      "medicine_information": "Cold symptoms can sometimes be managed with over-the-counter medicines depending on the symptoms.",
+      "dose_guidance": "Follow the product label carefully. Avoid taking multiple cold medicines containing the same active ingredient.",
+      "overdose_warning": "Taking too much cold medicine can cause serious side effects.",
+      "doctor_advice": "Seek medical advice if symptoms become severe, last unusually long, or cause breathing difficulty."
     }
   },
+
   {
     "intent": "flu",
     "questions": [
@@ -103,7 +147,10 @@
       "tell me about influenza",
       "I have flu",
       "what does flu feel like",
-      "influenza symptoms"
+      "influenza symptoms",
+      "how can I manage flu",
+      "what should I do for flu",
+      "flu signs"
     ],
     "response": {
       "problem": "Flu",
@@ -112,12 +159,13 @@
         "Avoid close contact with others when you are unwell.",
         "Monitor your symptoms."
       ],
-      "medicine_information": "Some symptoms may be relieved with appropriate over-the-counter medicines. Antiviral medicines may be prescribed by healthcare professionals for some people.",
-      "dose_guidance": "Follow the product label or instructions from a healthcare professional. Do not exceed the recommended dose.",
-      "overdose_warning": "Taking more medicine than recommended can cause serious harm. Do not combine medicines without checking their ingredients.",
-      "doctor_advice": "Contact a healthcare professional if symptoms are severe, worsening, or if you are at increased risk of complications."
+      "medicine_information": "Some symptoms may be relieved with appropriate over-the-counter medicines. Antiviral medicines may be prescribed for some people.",
+      "dose_guidance": "Follow the product label or instructions from a healthcare professional.",
+      "overdose_warning": "Taking more medicine than recommended can cause serious harm.",
+      "doctor_advice": "Contact a healthcare professional if symptoms are severe or worsening."
     }
   },
+
   {
     "intent": "cough",
     "questions": [
@@ -127,7 +175,10 @@
       "cough symptoms",
       "tell me about cough",
       "I keep coughing",
-      "how does a cough happen"
+      "how does a cough happen",
+      "how can I manage a cough",
+      "what should I do for cough",
+      "persistent cough"
     ],
     "response": {
       "problem": "Cough",
@@ -137,35 +188,40 @@
         "Avoid smoke and other respiratory irritants."
       ],
       "medicine_information": "Some cough medicines are available over the counter, but their suitability depends on the type and cause of the cough.",
-      "dose_guidance": "Follow the product label and use the measuring device supplied with liquid medicines. Do not exceed the recommended dose.",
-      "overdose_warning": "Taking too much cough medicine can cause serious side effects. Never exceed the recommended amount.",
+      "dose_guidance": "Follow the product label and use the measuring device supplied with liquid medicines.",
+      "overdose_warning": "Taking too much cough medicine can cause serious side effects.",
       "doctor_advice": "Seek medical advice for a severe, persistent, bloody, or breathing-related cough."
     }
   },
+
   {
-    "intent": "stomach_pain",
+    "intent": "sore_throat",
     "questions": [
-      "I have stomach pain",
-      "my stomach hurts",
-      "what causes stomach pain",
-      "why does my stomach hurt",
-      "stomach ache",
-      "pain in my stomach",
-      "tell me about stomach pain"
+      "I have a sore throat",
+      "my throat hurts",
+      "throat pain",
+      "what causes sore throat",
+      "sore throat symptoms",
+      "how can I manage a sore throat",
+      "what should I do for throat pain",
+      "pain when swallowing",
+      "my throat is painful",
+      "tell me about sore throat"
     ],
     "response": {
-      "problem": "Stomach Pain",
+      "problem": "Sore Throat",
       "general_care": [
-        "Rest and drink fluids.",
-        "Avoid foods that clearly make your symptoms worse.",
-        "Monitor whether the pain improves or becomes worse."
+        "Drink fluids.",
+        "Warm liquids may soothe throat discomfort.",
+        "Avoid smoke and other irritants."
       ],
-      "medicine_information": "The appropriate treatment for stomach pain depends strongly on its cause. Avoid taking medicine to mask severe or unexplained pain without medical advice.",
-      "dose_guidance": "Do not take medicines for abdominal pain beyond the recommended label dose unless advised by a healthcare professional.",
-      "overdose_warning": "Taking excessive amounts of painkillers or other medicines can cause serious harm.",
-      "doctor_advice": "Seek medical attention for severe, persistent, worsening, or unexplained abdominal pain, especially when accompanied by vomiting, bleeding, fever, or fainting."
+      "medicine_information": "Some over-the-counter products may relieve throat discomfort depending on the cause.",
+      "dose_guidance": "Follow the product label or professional medical advice.",
+      "overdose_warning": "Never exceed the recommended amount of any medicine.",
+      "doctor_advice": "Seek medical advice if symptoms are severe, persistent, or associated with difficulty breathing or swallowing."
     }
   },
+
   {
     "intent": "allergy",
     "questions": [
@@ -175,7 +231,10 @@
       "why am I sneezing",
       "what causes allergies",
       "tell me about allergies",
-      "I think I have an allergy"
+      "I think I have an allergy",
+      "how can I manage allergies",
+      "what should I do for an allergy",
+      "seasonal allergy"
     ],
     "response": {
       "problem": "Allergy",
@@ -184,172 +243,429 @@
         "Keep the environment clean when dust or allergens are a trigger."
       ],
       "medicine_information": "Antihistamines are commonly used for some allergy symptoms, but the appropriate medicine depends on the person and symptoms.",
-      "dose_guidance": "Follow the product label or instructions from a healthcare professional. Do not exceed the recommended dose.",
-      "overdose_warning": "Taking too much allergy medicine can cause serious side effects. Never exceed the recommended amount.",
+      "dose_guidance": "Follow the product label or instructions from a healthcare professional.",
+      "overdose_warning": "Taking too much allergy medicine can cause serious side effects.",
       "doctor_advice": "Seek urgent medical attention for severe allergic reactions, especially swelling of the face or throat, difficulty breathing, or fainting."
     }
   },
+
   {
-    "intent": "prevention",
+    "intent": "asthma",
     "questions": [
-      "how can I stay healthy",
-      "how can I prevent illness",
-      "tips for preventing diseases",
-      "how to avoid getting sick",
-      "how can I improve my health",
-      "healthy habits",
-      "disease prevention tips"
+      "what is asthma",
+      "asthma symptoms",
+      "I have asthma",
+      "what causes asthma",
+      "tell me about asthma",
+      "how does asthma affect breathing",
+      "asthma information",
+      "what are signs of asthma",
+      "how can asthma be managed",
+      "breathing problems from asthma"
     ],
     "response": {
-      "problem": "Disease Prevention",
+      "problem": "Asthma",
       "general_care": [
-        "Eat a balanced diet.",
-        "Stay physically active.",
-        "Get adequate sleep.",
-        "Maintain good hygiene.",
-        "Keep recommended vaccinations up to date."
+        "Avoid known triggers when possible.",
+        "Follow an existing asthma action plan if provided by a healthcare professional.",
+        "Monitor breathing symptoms."
       ],
-      "medicine_information": "Medicines are not a substitute for healthy lifestyle habits and appropriate preventive healthcare.",
-      "dose_guidance": "Use medicines and supplements only according to their labels or professional medical advice.",
-      "overdose_warning": "Taking more medicine or supplements than recommended does not improve health and can be harmful.",
-      "doctor_advice": "Have appropriate health checkups and speak with a healthcare professional about individual preventive care."
+      "medicine_information": "Asthma medicines are condition-specific and should be used according to a healthcare professional's instructions.",
+      "dose_guidance": "Use asthma medicines only according to prescribed or product instructions.",
+      "overdose_warning": "Do not take extra doses beyond instructions.",
+      "doctor_advice": "Seek urgent medical help for severe or rapidly worsening breathing difficulty."
     }
   },
+
   {
-    "intent": "first_aid",
+    "intent": "dengue",
     "questions": [
-      "what is first aid",
-      "give me first aid information",
-      "basic first aid",
-      "what should I do for a minor injury",
-      "first aid tips",
-      "how does first aid work",
-      "I need basic first aid information"
+      "what are dengue symptoms",
+      "I think I have dengue",
+      "dengue symptoms",
+      "tell me about dengue",
+      "what causes dengue",
+      "how does dengue affect the body",
+      "dengue fever information",
+      "what are signs of dengue",
+      "how can dengue be managed",
+      "I have symptoms of dengue"
     ],
     "response": {
-      "problem": "Basic First Aid",
+      "problem": "Dengue",
       "general_care": [
-        "First aid provides immediate basic care until professional help is available.",
-        "For minor injuries, keep the affected area clean and protect it from further injury."
+        "Rest and maintain adequate fluid intake.",
+        "Monitor symptoms and temperature.",
+        "Seek medical evaluation if dengue is suspected."
       ],
-      "medicine_information": "First aid treatment depends on the type and severity of the injury.",
-      "dose_guidance": "Do not use medicines as a substitute for appropriate first aid or professional medical care.",
-      "overdose_warning": "Never use more medicine than the recommended amount while treating an injury.",
-      "doctor_advice": "For serious injuries, heavy bleeding, loss of consciousness, severe burns, or other emergencies, seek urgent medical assistance."
+      "medicine_information": "There is no single medicine that should be used for every person with suspected dengue. A healthcare professional should guide symptom management.",
+      "dose_guidance": "Do not self-prescribe or change medicine doses for suspected dengue.",
+      "overdose_warning": "Avoid taking more medicine than recommended. If you suspect an overdose, seek urgent medical care.",
+      "doctor_advice": "Seek medical evaluation if dengue is suspected, especially for severe abdominal pain, repeated vomiting, bleeding, extreme weakness, breathing difficulty, or worsening symptoms."
     }
   },
+
   {
-    "intent": "doctor_visit",
+    "intent": "malaria",
     "questions": [
-      "when should I see a doctor",
-      "should I visit a doctor",
-      "do I need to see a doctor",
-      "when should I seek medical advice",
-      "should I talk to a healthcare professional",
-      "when do I need medical help",
-      "I am not sure if I should see a doctor"
+      "what are malaria symptoms",
+      "I think I have malaria",
+      "malaria symptoms",
+      "tell me about malaria",
+      "what causes malaria",
+      "malaria fever",
+      "what are signs of malaria",
+      "how is malaria treated",
+      "malaria information",
+      "I have symptoms of malaria"
     ],
     "response": {
-      "problem": "When to See a Doctor",
+      "problem": "Malaria",
       "general_care": [
-        "Monitor your symptoms and note whether they are improving or worsening."
+        "Seek medical evaluation for suspected malaria.",
+        "Rest and maintain fluids.",
+        "Monitor fever and other symptoms."
       ],
-      "medicine_information": "A healthcare professional can help determine whether medicine is appropriate for your symptoms.",
-      "dose_guidance": "Do not change or increase medicine doses without professional advice.",
-      "overdose_warning": "If you think you have taken too much medicine, seek urgent medical advice.",
-      "doctor_advice": "Consider speaking with a healthcare professional when symptoms are severe, persistent, worsening, unusual, or affecting daily activities."
+      "medicine_information": "Malaria requires appropriate diagnosis and treatment by a healthcare professional. Do not self-select antimalarial medicines.",
+      "dose_guidance": "Take malaria medicines only as prescribed or directed by a qualified healthcare professional.",
+      "overdose_warning": "Never take extra antimalarial medicine without professional advice.",
+      "doctor_advice": "Seek prompt medical care for suspected malaria, especially with high fever, confusion, severe weakness, or breathing difficulty."
     }
   },
+
   {
-    "intent": "medication_information",
+    "intent": "typhoid",
     "questions": [
-      "what is medication",
-      "what should I know about medicines",
-      "how do medicines work",
-      "tell me about medications",
-      "medicine information",
-      "what are medicines used for",
-      "general medication information"
+      "what are typhoid symptoms",
+      "I think I have typhoid",
+      "typhoid symptoms",
+      "tell me about typhoid",
+      "what causes typhoid",
+      "typhoid fever information",
+      "what are signs of typhoid",
+      "how can typhoid be managed",
+      "I have typhoid symptoms",
+      "typhoid information"
     ],
     "response": {
-      "problem": "Medication Information",
+      "problem": "Typhoid",
       "general_care": [
-        "Medicines should be used according to their instructions."
+        "Seek medical evaluation if typhoid is suspected.",
+        "Drink fluids as appropriate.",
+        "Maintain good hand hygiene."
       ],
-      "medicine_information": "Medicines are used to prevent, manage, or treat health conditions. The correct medicine depends on the condition and the individual.",
-      "dose_guidance": "Follow the medicine label or instructions from a qualified healthcare professional. Do not change the dose without professional advice.",
-      "overdose_warning": "Taking more medicine than recommended can cause serious harm. If you suspect an overdose, seek urgent medical help.",
-      "doctor_advice": "Ask a doctor or pharmacist if you are unsure about a medicine, dose, interaction, or side effect."
+      "medicine_information": "Typhoid treatment may require prescription antibiotics selected by a healthcare professional.",
+      "dose_guidance": "Use prescription medicines only as directed by the healthcare professional.",
+      "overdose_warning": "Never take extra antibiotics or other medicines beyond instructions.",
+      "doctor_advice": "Consult a healthcare professional if typhoid is suspected, particularly with persistent fever, weakness, dehydration, or worsening symptoms."
     }
   },
+
   {
-    "intent": "general_health",
+    "intent": "food_poisoning",
     "questions": [
-      "give me health advice",
-      "tell me about health",
-      "general health information",
-      "how can I maintain good health",
-      "what are healthy habits",
-      "health tips",
-      "I want to learn about health"
+      "I think I have food poisoning",
+      "food poisoning symptoms",
+      "what are symptoms of food poisoning",
+      "I ate something bad",
+      "vomiting after eating",
+      "diarrhea after eating",
+      "food poisoning information",
+      "what should I do for food poisoning",
+      "stomach upset after food",
+      "signs of food poisoning"
     ],
     "response": {
-      "problem": "General Health",
+      "problem": "Food Poisoning",
       "general_care": [
-        "Eat a balanced diet.",
-        "Exercise regularly.",
-        "Get adequate sleep.",
-        "Maintain good hygiene.",
-        "Manage stress in healthy ways."
+        "Drink fluids to reduce the risk of dehydration.",
+        "Rest and monitor symptoms.",
+        "Use safe food and hand hygiene practices."
       ],
-      "medicine_information": "Medicines should be used for appropriate medical reasons and according to professional advice.",
-      "dose_guidance": "Follow medicine labels and professional medical instructions.",
+      "medicine_information": "Treatment depends on the cause and severity. Avoid taking antibiotics without appropriate medical advice.",
+      "dose_guidance": "Follow product labels or professional advice for any medicine.",
       "overdose_warning": "Never take more medicine than recommended.",
-      "doctor_advice": "Regular healthcare checkups can help identify and manage health concerns."
+      "doctor_advice": "Seek medical care for severe dehydration, blood in stool or vomit, persistent vomiting, severe abdominal pain, high fever, or worsening symptoms."
     }
   },
+
   {
-    "intent": "emergency",
+    "intent": "stomach_pain",
     "questions": [
-      "I need emergency help",
-      "this is a medical emergency",
-      "what should I do in an emergency",
-      "I need urgent medical help",
-      "someone needs immediate medical attention",
-      "this is urgent",
-      "help me with a medical emergency"
+      "I have stomach pain",
+      "my stomach hurts",
+      "what causes stomach pain",
+      "why does my stomach hurt",
+      "stomach ache",
+      "pain in my stomach",
+      "tell me about stomach pain",
+      "how can I manage stomach pain",
+      "what should I do for stomach pain",
+      "abdominal pain"
     ],
     "response": {
-      "problem": "Medical Emergency",
+      "problem": "Stomach Pain",
       "general_care": [
-        "Seek urgent medical attention immediately."
+        "Rest and drink fluids.",
+        "Avoid foods that clearly make symptoms worse.",
+        "Monitor whether the pain improves or becomes worse."
       ],
-      "medicine_information": "Do not rely on this application for emergency treatment or medication instructions.",
-      "dose_guidance": "Do not delay emergency care while trying to determine a medicine dose.",
-      "overdose_warning": "If an overdose may have occurred, seek emergency medical help immediately.",
-      "doctor_advice": "Contact your local emergency service or go to the nearest hospital/emergency department immediately."
+      "medicine_information": "The appropriate treatment for stomach pain depends strongly on its cause.",
+      "dose_guidance": "Do not take medicines for abdominal pain beyond the recommended label dose.",
+      "overdose_warning": "Taking excessive amounts of painkillers or other medicines can cause serious harm.",
+      "doctor_advice": "Seek medical attention for severe, persistent, worsening, or unexplained abdominal pain, especially with vomiting, bleeding, fever, or fainting."
     }
   },
+
   {
-    "intent": "unknown",
+    "intent": "vomiting",
     "questions": [
-      "tell me something",
-      "I have a question",
-      "what can you do",
-      "help me",
-      "I do not know what to ask",
-      "can you answer questions",
-      "I need information"
+      "I am vomiting",
+      "what causes vomiting",
+      "vomiting symptoms",
+      "how can I manage vomiting",
+      "what should I do for vomiting",
+      "I keep vomiting",
+      "feeling like vomiting",
+      "vomit information",
+      "frequent vomiting",
+      "why am I vomiting"
     ],
     "response": {
-      "problem": "Unknown Health Question",
+      "problem": "Vomiting",
       "general_care": [
-        "I can provide general information about common health topics."
+        "Take small amounts of fluid frequently if tolerated.",
+        "Rest and monitor symptoms.",
+        "Avoid foods that clearly worsen nausea."
       ],
-      "medicine_information": "Please ask about a specific health topic or medicine.",
-      "dose_guidance": "Do not take medicine based only on information from this application.",
-      "overdose_warning": "Never exceed the recommended dose of any medicine.",
-      "doctor_advice": "For serious or concerning symptoms, consult a healthcare professional."
+      "medicine_information": "Some medicines can help nausea or vomiting, but the correct option depends on the cause and the person.",
+      "dose_guidance": "Follow the product label or professional instructions.",
+      "overdose_warning": "Taking too much anti-nausea or other medicine can be harmful.",
+      "doctor_advice": "Seek medical attention for persistent vomiting, severe dehydration, blood in vomit, severe abdominal pain, confusion, or worsening symptoms."
+    }
+  },
+
+  {
+    "intent": "diarrhea",
+    "questions": [
+      "I have diarrhea",
+      "what causes diarrhea",
+      "diarrhea symptoms",
+      "how can I manage diarrhea",
+      "what should I do for diarrhea",
+      "loose motions",
+      "frequent loose stools",
+      "diarrhea information",
+      "I have loose motions",
+      "watery stools"
+    ],
+    "response": {
+      "problem": "Diarrhea or Loose Motions",
+      "general_care": [
+        "Drink fluids to reduce dehydration risk.",
+        "Choose light foods as tolerated.",
+        "Wash hands carefully to reduce spread of infection."
+      ],
+      "medicine_information": "Some over-the-counter products may be used in selected situations, but the appropriate choice depends on the cause and the person.",
+      "dose_guidance": "Follow the product label or professional advice.",
+      "overdose_warning": "Never take more anti-diarrheal or other medicine than recommended.",
+      "doctor_advice": "Seek medical attention for severe dehydration, blood in stool, severe abdominal pain, persistent diarrhea, high fever, or worsening symptoms."
+    }
+  },
+
+  {
+    "intent": "constipation",
+    "questions": [
+      "I have constipation",
+      "what causes constipation",
+      "constipation symptoms",
+      "how can I manage constipation",
+      "what should I do for constipation",
+      "difficulty passing stool",
+      "hard stools",
+      "constipation information",
+      "I cannot pass stool",
+      "irregular bowel movements"
+    ],
+    "response": {
+      "problem": "Constipation",
+      "general_care": [
+        "Drink enough fluids.",
+        "Eat fiber-rich foods when appropriate.",
+        "Regular physical activity may help bowel regularity."
+      ],
+      "medicine_information": "Some people use fiber products or laxatives for constipation, but the appropriate option depends on the cause and individual circumstances.",
+      "dose_guidance": "Follow the product label or professional advice.",
+      "overdose_warning": "Excessive laxative use can cause dehydration and other problems.",
+      "doctor_advice": "Seek medical advice for severe or persistent constipation, severe abdominal pain, vomiting, blood in stool, or unexplained changes in bowel habits."
+    }
+  },
+
+  {
+    "intent": "acidity",
+    "questions": [
+      "I have acidity",
+      "what causes acidity",
+      "acidity symptoms",
+      "heartburn information",
+      "I have heartburn",
+      "burning in my stomach",
+      "how can I manage acidity",
+      "what should I do for heartburn",
+      "acid reflux symptoms",
+      "stomach acid problem"
+    ],
+    "response": {
+      "problem": "Acidity and Heartburn",
+      "general_care": [
+        "Avoid foods or drinks that clearly trigger symptoms.",
+        "Avoid lying down immediately after meals.",
+        "Maintain healthy meal habits."
+      ],
+      "medicine_information": "Some over-the-counter medicines can relieve occasional heartburn, but persistent symptoms should be evaluated.",
+      "dose_guidance": "Follow the product label or professional advice.",
+      "overdose_warning": "Taking too much acid-reducing medicine can cause harm.",
+      "doctor_advice": "Seek medical advice for frequent, severe, persistent, or unusual symptoms, especially chest pain or difficulty swallowing."
+    }
+  },
+
+  {
+    "intent": "motion_sickness",
+    "questions": [
+      "I feel sick while travelling",
+      "I get motion sickness",
+      "motion sickness symptoms",
+      "travel sickness",
+      "I feel nauseous in a car",
+      "I feel sick on a bus",
+      "I feel sick on a boat",
+      "how can I prevent motion sickness",
+      "what should I do for travel sickness",
+      "motion sickness information"
+    ],
+    "response": {
+      "problem": "Motion Sickness",
+      "general_care": [
+        "Look toward the horizon when possible.",
+        "Get fresh air and avoid reading while travelling.",
+        "Keep hydrated."
+      ],
+      "medicine_information": "Some medicines can help prevent motion sickness, but suitability depends on the person and medicine.",
+      "dose_guidance": "Follow the product label or professional advice. Some motion-sickness medicines can cause drowsiness.",
+      "overdose_warning": "Never take more motion-sickness medicine than recommended.",
+      "doctor_advice": "Seek medical advice if vomiting is persistent, severe, or accompanied by unusual symptoms."
+    }
+  },
+
+  {
+    "intent": "skin_rash",
+    "questions": [
+      "I have a skin rash",
+      "what causes skin rash",
+      "skin rash symptoms",
+      "rash on my skin",
+      "what should I do for a rash",
+      "skin irritation",
+      "red rash on skin",
+      "tell me about skin rashes",
+      "itchy rash",
+      "skin rash information"
+    ],
+    "response": {
+      "problem": "Skin Rash",
+      "general_care": [
+        "Avoid known irritants or triggers.",
+        "Keep the affected skin clean and avoid scratching.",
+        "Monitor whether the rash spreads or changes."
+      ],
+      "medicine_information": "Treatment depends on the cause of the rash. Avoid using prescription products without appropriate advice.",
+      "dose_guidance": "Use topical or other medicines only according to the product label or professional advice.",
+      "overdose_warning": "Do not apply excessive amounts of medicated creams or other products.",
+      "doctor_advice": "Seek medical care for a rapidly spreading rash, severe swelling, fever, skin peeling, or signs of a severe allergic reaction."
+    }
+  },
+
+  {
+    "intent": "eye_problem",
+    "questions": [
+      "I have an eye problem",
+      "my eye hurts",
+      "eye irritation",
+      "red eyes",
+      "what causes eye pain",
+      "eye problem symptoms",
+      "what should I do for eye irritation",
+      "my eyes are red",
+      "eye discomfort",
+      "tell me about eye problems"
+    ],
+    "response": {
+      "problem": "Eye Problem",
+      "general_care": [
+        "Avoid rubbing the eyes.",
+        "Keep hands clean before touching the eye area.",
+        "Monitor pain, redness, swelling, and vision changes."
+      ],
+      "medicine_information": "Eye medicines depend on the cause. Do not use another person's prescription eye medicine.",
+      "dose_guidance": "Use eye medicines only according to their label or a healthcare professional's instructions.",
+      "overdose_warning": "Do not use excessive amounts of eye medicine.",
+      "doctor_advice": "Seek urgent medical care for sudden vision loss, severe eye pain, significant injury, chemical exposure, or severe swelling."
+    }
+  },
+
+  {
+    "intent": "ear_problem",
+    "questions": [
+      "I have ear pain",
+      "my ear hurts",
+      "ear problem symptoms",
+      "what causes ear pain",
+      "earache",
+      "what should I do for ear pain",
+      "ear discomfort",
+      "ear infection information",
+      "my ears are hurting",
+      "tell me about ear problems"
+    ],
+    "response": {
+      "problem": "Ear Problem",
+      "general_care": [
+        "Keep the ear dry when appropriate.",
+        "Avoid inserting objects into the ear.",
+        "Monitor pain, fever, discharge, or hearing changes."
+      ],
+      "medicine_information": "Treatment depends on the cause. Do not use ear drops unless they are appropriate and recommended.",
+      "dose_guidance": "Follow the product label or professional instructions.",
+      "overdose_warning": "Never use more medicine or ear drops than recommended.",
+      "doctor_advice": "Seek medical advice for severe ear pain, significant hearing loss, discharge, injury, high fever, or persistent symptoms."
+    }
+  },
+
+  {
+    "intent": "toothache",
+    "questions": [
+      "I have a toothache",
+      "my tooth hurts",
+      "tooth pain",
+      "what causes toothache",
+      "what should I do for tooth pain",
+      "toothache symptoms",
+      "pain in my tooth",
+      "how can I manage toothache",
+      "dental pain",
+      "tell me about toothache"
+    ],
+    "response": {
+      "problem": "Toothache",
+      "general_care": [
+        "Keep teeth clean with gentle brushing.",
+        "Rinse the mouth with water when appropriate.",
+        "Avoid very hot or cold foods if they worsen pain."
+      ],
+      "medicine_information": "Pain relievers may temporarily reduce discomfort for some people, but dental pain often needs assessment by a dentist.",
+      "dose_guidance": "Follow the product label or professional advice.",
+      "overdose_warning": "Taking too much pain medicine can cause serious harm.",
+      "doctor_advice": "See a dentist for persistent tooth pain. Seek urgent care for facial swelling or difficulty breathing or swallowing."
     }
   }
 ]
