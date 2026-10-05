@@ -6,6 +6,10 @@ from services.nlp import generate_response
 from services.safety import check_emergency
 
 
+# ---------------------------------------------------------
+# FastAPI Application
+# ---------------------------------------------------------
+
 app = FastAPI(
     title="Medical Assistant API",
     description="NLP-based Medical Assistant",
@@ -16,7 +20,7 @@ app = FastAPI(
 # ---------------------------------------------------------
 # CORS Configuration
 # ---------------------------------------------------------
-# Allows the React frontend to communicate with the backend.
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -29,6 +33,7 @@ app.add_middleware(
 # ---------------------------------------------------------
 # Request Model
 # ---------------------------------------------------------
+
 class ChatRequest(BaseModel):
     message: str
 
@@ -36,8 +41,7 @@ class ChatRequest(BaseModel):
 # ---------------------------------------------------------
 # Medical Keywords
 # ---------------------------------------------------------
-# Used to identify whether a question is related to
-# health or medicine before sending it to the NLP model.
+
 MEDICAL_KEYWORDS = [
     "health",
     "healthy",
@@ -102,7 +106,6 @@ MEDICAL_KEYWORDS = [
     "bp",
     "sugar",
     "diabetes",
-    "vomiting",
     "constipation",
     "migraine",
     "throat",
@@ -117,6 +120,7 @@ MEDICAL_KEYWORDS = [
 # ---------------------------------------------------------
 # Check Whether Question Is Medical
 # ---------------------------------------------------------
+
 def is_medical_question(text: str):
     text = text.lower().strip()
 
@@ -130,6 +134,7 @@ def is_medical_question(text: str):
 # ---------------------------------------------------------
 # Root Endpoint
 # ---------------------------------------------------------
+
 @app.get("/")
 def root():
     return {
@@ -140,6 +145,7 @@ def root():
 # ---------------------------------------------------------
 # Health Check Endpoint
 # ---------------------------------------------------------
+
 @app.get("/health")
 def health():
     return {
@@ -150,6 +156,7 @@ def health():
 # ---------------------------------------------------------
 # Chat Endpoint
 # ---------------------------------------------------------
+
 @app.post("/chat")
 def chat(request: ChatRequest):
 
@@ -159,6 +166,7 @@ def chat(request: ChatRequest):
     # -----------------------------------------------------
     # 1. Empty Question Check
     # -----------------------------------------------------
+
     if not user_message:
 
         return {
@@ -192,8 +200,10 @@ def chat(request: ChatRequest):
     # -----------------------------------------------------
     # 2. Emergency Check
     # -----------------------------------------------------
+
     # Emergency questions are checked before normal
     # medical classification.
+
     if check_emergency(user_message):
 
         return {
@@ -235,14 +245,10 @@ def chat(request: ChatRequest):
     # -----------------------------------------------------
     # 3. Non-Medical Question Check
     # -----------------------------------------------------
-    # This prevents the NLP model from classifying unrelated
-    # questions such as:
-    #
-    # "What is the capital of India?"
-    # "Write a Python program."
-    # "Who is the president?"
-    #
-    # as medical intents such as "greeting", "fever", etc.
+
+    # Prevents unrelated questions from being sent
+    # to the medical NLP model.
+
     if not is_medical_question(user_message):
 
         return {
@@ -251,23 +257,22 @@ def chat(request: ChatRequest):
             "problem": "Question Outside Medical Scope",
 
             "general_care": [
-                "I can provide only medical and health-related information.",
-                "Please ask a health-related question."
+                "Sorry, I can only provide medical and health-related information. Please ask a health-related question."
             ],
 
             "medicine_information": (
-                "Medicine information is available only "
-                "for health-related questions."
+                "This assistant provides information only "
+                "about medical and health-related topics."
             ),
 
             "dose_guidance": (
-                "Dose guidance is available only "
-                "for health-related questions."
+                "Dose guidance is available only for "
+                "medical and medication-related questions."
             ),
 
             "overdose_warning": (
                 "For medication or poisoning concerns, "
-                "please ask a medical question."
+                "please ask a medical question or seek professional help."
             ),
 
             "doctor_advice": (
@@ -279,4 +284,5 @@ def chat(request: ChatRequest):
     # -----------------------------------------------------
     # 4. Normal NLP-Based Medical Response
     # -----------------------------------------------------
+
     return generate_response(user_message)
