@@ -52,33 +52,40 @@
     }
   },
   {
-    "intent": "headache",
-    "questions": [
-      "I have a headache",
-      "what causes headache",
-      "headache symptoms",
-      "why does my head hurt",
-      "tell me about headache",
-      "my head is hurting",
-      "I am having a headache",
-      "how can I manage a headache",
-      "what should I do for headache",
-      "frequent headache"
+  "intent": "headache",
+  "questions": [
+    "Headache",
+    "headache",
+    "I have a headache",
+    "i have a headache",
+    "I have headache",
+    "my head hurts",
+    "my head is hurting",
+    "I have head pain",
+    "pain in my head",
+    "what causes headache",
+    "headache symptoms",
+    "why does my head hurt",
+    "tell me about headache",
+    "I am having a headache",
+    "how can I manage a headache",
+    "what should I do for headache",
+    "frequent headache"
+  ],
+  "response": {
+    "problem": "Headache",
+    "general_care": [
+      "Rest in a quiet environment.",
+      "Drink enough water.",
+      "Try to get adequate sleep.",
+      "Avoid known headache triggers when possible."
     ],
-    "response": {
-      "problem": "Headache",
-      "general_care": [
-        "Rest in a quiet environment.",
-        "Drink enough water.",
-        "Try to get adequate sleep.",
-        "Avoid known headache triggers when possible."
-      ],
-      "medicine_information": "Some people use over-the-counter pain relievers such as paracetamol for occasional headaches. The appropriate medicine depends on the individual.",
-      "dose_guidance": "Follow the product label or advice from a healthcare professional. Do not exceed the recommended dose.",
-      "overdose_warning": "Taking too much pain medicine can cause serious harm. Do not take multiple products containing the same active ingredient.",
-      "doctor_advice": "Seek medical attention for a sudden, extremely severe, unusual, persistent, or worsening headache."
-    }
-  },
+    "medicine_information": "Some people use over-the-counter pain relievers for occasional headaches. The appropriate medicine depends on the individual.",
+    "dose_guidance": "Follow the product label or advice from a healthcare professional. Do not exceed the recommended dose.",
+    "overdose_warning": "Taking too much pain medicine can cause serious harm. Do not take multiple products containing the same active ingredient.",
+    "doctor_advice": "Seek medical attention for a sudden, extremely severe, unusual, persistent, or worsening headache."
+  }
+},
   {
     "intent": "migraine",
     "questions": [
@@ -100,9 +107,9 @@
         "Drink enough fluids.",
         "Try to identify and avoid known triggers."
       ],
-      "medicine_information": "Some people use over-the-counter pain relievers for occasional migraine symptoms, but the appropriate option depends on the individual.",
+      "medicine_information": "Some people use over-the-counter pain relievers like Napra-D250 for occasional migraine symptoms, but the appropriate option depends on the individual.",
       "dose_guidance": "Follow the product label or professional medical advice. Do not exceed the recommended dose.",
-      "overdose_warning": "Taking too much pain medicine can cause serious harm.",
+      "overdose_warning": "Taking too much pain medicine can cause serious harm like stroke.",
       "doctor_advice": "Seek medical advice for frequent, severe, unusual, or worsening headaches."
     }
   },
@@ -127,7 +134,7 @@
         "Warm fluids may help soothe a sore throat.",
         "Maintain good hand hygiene."
       ],
-      "medicine_information": "Cold symptoms can sometimes be managed with over-the-counter medicines depending on the symptoms.",
+      "medicine_information": "Use citrizen because cold symptoms can sometimes be managed with over-the-counter medicines depending on the symptoms.",
       "dose_guidance": "Follow the product label carefully. Avoid taking multiple cold medicines containing the same active ingredient.",
       "overdose_warning": "Taking too much cold medicine can cause serious side effects.",
       "doctor_advice": "Seek medical advice if symptoms become severe, last unusually long, or cause breathing difficulty."

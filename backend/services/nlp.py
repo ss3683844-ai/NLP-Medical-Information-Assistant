@@ -15,7 +15,7 @@ DATA_FILE = "data/medical_data.json"
 # CONFIDENCE THRESHOLD
 # =========================================================
 
-CONFIDENCE_THRESHOLD = 0.40
+CONFIDENCE_THRESHOLD = 0.15
 
 
 # =========================================================
@@ -31,6 +31,116 @@ GREETING_WORDS = {
     "good morning",
     "good afternoon",
     "good evening"
+}
+
+
+# =========================================================
+# EXACT MEDICAL TOPIC MAP
+# =========================================================
+
+EXACT_TOPIC_MAP = {
+    "fever": "fever",
+    "headache": "headache",
+    "migraine": "migraine",
+    "cold": "cold",
+    "flu": "flu",
+    "cough": "cough",
+    "sore throat": "sore_throat",
+    "allergy": "allergy",
+    "asthma": "asthma",
+    "dengue": "dengue",
+    "malaria": "malaria",
+    "typhoid": "typhoid",
+    "food poisoning": "food_poisoning",
+    "stomach pain": "stomach_pain",
+    "stomach ache": "stomach_pain",
+    "vomiting": "vomiting",
+    "vomit": "vomiting",
+    "diarrhea": "diarrhea",
+    "constipation": "constipation",
+    "acidity": "acidity",
+    "motion sickness": "motion_sickness",
+    "skin rash": "skin_rash",
+    "rash": "skin_rash",
+    "eye problem": "eye_problem",
+    "ear problem": "ear_problem",
+    "earache": "ear_problem",
+    "toothache": "toothache",
+    "chest pain": "chest_pain",
+    "breathing problem": "breathing_problem",
+    "blood pressure": "blood_pressure",
+    "diabetes": "diabetes",
+    "back pain": "back_pain",
+    "joint pain": "joint_pain",
+    "dizziness": "dizziness",
+    "fatigue": "fatigue",
+    "itching": "itching",
+    "anxiety": "anxiety"
+}
+
+
+# =========================================================
+# MEDICAL KEYWORDS
+# =========================================================
+
+MEDICAL_KEYWORDS = {
+    "pain",
+    "ache",
+    "headache",
+    "migraine",
+    "fever",
+    "temperature",
+    "cold",
+    "flu",
+    "cough",
+    "throat",
+    "sore",
+    "allergy",
+    "asthma",
+    "breathing",
+    "breathe",
+    "chest",
+    "dengue",
+    "malaria",
+    "typhoid",
+    "food poisoning",
+    "stomach",
+    "vomiting",
+    "vomit",
+    "nausea",
+    "diarrhea",
+    "constipation",
+    "acidity",
+    "rash",
+    "skin",
+    "itch",
+    "itching",
+    "itchy",
+    "eye",
+    "ear",
+    "tooth",
+    "dizziness",
+    "dizzy",
+    "fatigue",
+    "tired",
+    "weak",
+    "energy",
+    "anxiety",
+    "worried",
+    "blood pressure",
+    "pressure",
+    "diabetes",
+    "back",
+    "joint",
+    "medicine",
+    "medication",
+    "symptom",
+    "symptoms",
+    "health",
+    "sick",
+    "ill",
+    "doctor",
+    "disease"
 }
 
 
@@ -90,10 +200,49 @@ def is_greeting(text: str) -> bool:
 
 
 # =========================================================
+# MEDICAL QUESTION CHECK
+# =========================================================
+
+def is_medical_question(text: str) -> bool:
+
+    if not isinstance(text, str):
+        return False
+
+    cleaned_text = text.lower().strip()
+
+    # Exact medical topic
+    if cleaned_text in EXACT_TOPIC_MAP:
+        return True
+
+    # Medical keyword inside a sentence
+    for keyword in MEDICAL_KEYWORDS:
+
+        if keyword in cleaned_text:
+            return True
+
+    return False
+
+
+# =========================================================
+# OUT OF DOMAIN RESPONSE
+# =========================================================
+
+def out_of_domain_response():
+
+    return {
+        "intent": "out_of_domain",
+        "confidence": 1.0,
+        "message":
+            "Sorry, I am your Medical Assistant. "
+            "I can answer only medical and health-related questions."
+    }
+
+
+# =========================================================
 # UNKNOWN RESPONSE
 # =========================================================
 
-def unknown_response(confidence=0.15):
+def unknown_response(confidence=0.0):
 
     return {
         "intent": "unknown",
@@ -194,16 +343,36 @@ def generate_response(text: str):
 
 
     # -----------------------------------------------------
-    # PREDICT PROBABILITIES
+    # MEDICAL / NON-MEDICAL CHECK
     # -----------------------------------------------------
 
-    probabilities = model.predict_proba([text])[0]
+    if not is_medical_question(text):
 
-    index = probabilities.argmax()
+        return out_of_domain_response()
 
-    intent = model.classes_[index]
 
-    confidence = float(probabilities[index])
+    # -----------------------------------------------------
+    # EXACT TOPIC OR ML PREDICTION
+    # -----------------------------------------------------
+
+    cleaned_text = text.lower().strip()
+
+    # Short/exact medical topics
+    if cleaned_text in EXACT_TOPIC_MAP:
+
+        intent = EXACT_TOPIC_MAP[cleaned_text]
+        confidence = 1.0
+
+    # Longer medical sentences
+    else:
+
+        probabilities = model.predict_proba([text])[0]
+
+        index = probabilities.argmax()
+
+        intent = model.classes_[index]
+
+        confidence = float(probabilities[index])
 
 
     # -----------------------------------------------------
@@ -211,6 +380,7 @@ def generate_response(text: str):
     # -----------------------------------------------------
 
     if confidence < CONFIDENCE_THRESHOLD:
+
         return unknown_response(confidence)
 
 
@@ -221,11 +391,12 @@ def generate_response(text: str):
     response_data = responses.get(intent)
 
     if response_data is None:
+
         return unknown_response(confidence)
 
 
     # -----------------------------------------------------
-    # RETURN RESPONSE
+    # RETURN MEDICAL RESPONSE
     # -----------------------------------------------------
 
     return {
